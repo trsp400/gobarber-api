@@ -1,4 +1,5 @@
 import fastify from 'fastify';
+import './database';
 
 export default function createServer() {
   const server = fastify();

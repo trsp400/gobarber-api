@@ -24,9 +24,9 @@ export default async function appointmentsRoutes(server, options, next){
 
 
       return res.send({appointment});
-    } catch (err) {
+    } catch (error) {
       return res.status(400).send({
-        message: err
+        message: error.message
       })
     }
   })

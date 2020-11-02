@@ -1,11 +1,11 @@
 FROM node:alpine
 
-WORKDIR /usr/app
+WORKDIR /app
 
-COPY package*.json .
+COPY ./package*.json ./
 RUN yarn
 
-COPY . .
+COPY ./ ./
 
 EXPOSE 3333
 
