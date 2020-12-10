@@ -1,4 +1,4 @@
-import {startOfHour} from 'date-fns';
+import { startOfHour } from 'date-fns';
 import Appointment from '../models/Appointment';
 import AppointmentRepository from '../repositories/AppointmentsRepository';
 
@@ -14,16 +14,20 @@ class CreateAppointmentService {
     this.appointmentsRepository = appointmentsRepository;
   }
 
-  public execute({provider, date}: RequestDTO): Appointment {
-    
-    const appointmentDate = startOfHour(date)
+  public execute({ provider, date }: RequestDTO): Appointment {
+    const appointmentDate = startOfHour(date);
 
-    const findAppointmentByDate = this.appointmentsRepository.findByDate(appointmentDate);
+    const findAppointmentByDate = this.appointmentsRepository.findByDate(
+      appointmentDate,
+    );
 
-    if(findAppointmentByDate) throw new Error("This time is already booked");    
+    if (findAppointmentByDate) throw new Error('This time is already booked');
 
-    const appointment = this.appointmentsRepository.create(provider, appointmentDate);
-    
+    const appointment = this.appointmentsRepository.create(
+      provider,
+      appointmentDate,
+    );
+
     return appointment;
   }
 }

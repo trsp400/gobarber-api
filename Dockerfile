@@ -2,10 +2,12 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY ./package*.json ./
+COPY package.json yarn.* ./
+COPY ormconfig.json ./
+
 RUN yarn
 
-COPY ./ ./
+COPY . .
 
 EXPOSE 3333
 

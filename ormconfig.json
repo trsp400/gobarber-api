@@ -2,7 +2,7 @@
   "type": "postgres",
   "host": "db",
   "port": 5432,
-  "username": "postgres",
+  "username": "gobarber",
   "password": "gobarber",
   "database": "gobarber",
   "migrations": [

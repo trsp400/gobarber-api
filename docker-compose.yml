@@ -1,25 +1,28 @@
-version: "3.4"
+version: "3.7"
 
-services: 
+services:
   api:
     build:
       context: .
     image: 'gobarber-api:latest'
     command: yarn dev:server
-    ports: 
+    ports:
       - "3333:3333"
-    volumes: 
+    volumes:
       - .:/app
       - /app/node_modules
     depends_on:
       - db
-  
+    environment:
+      WAIT_HOSTS: db:5432
+
   db:
-    image: postgres:latest
+    image: postgres:12
+    container_name: db
     ports:
     - 5432:5432
     environment:
       POSTGRES_DB: gobarber
+      POSTGRES_USER: gobarber
       POSTGRES_PASSWORD: gobarber
-    restart: always    
-    
+    restart: always
