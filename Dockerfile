@@ -1,9 +1,8 @@
 FROM node:alpine
 
-
 WORKDIR /app
 
-COPY package.json yarn.* ./
+COPY package.json ./
 COPY ormconfig.docker.json ./ormconfig.json
 COPY .env .
 
