@@ -7,10 +7,10 @@
   "database": "gobarber",
   "synchronize": true,
   "logging": false,
-  "migrations": ["./dist/src/database/migrations/*.ts"],
-  "entities": ["./dist/src/models/**/*"],
+  "migrations": ["./src/database/migrations/*.ts"],
+  "entities": ["./src/models/**/*"],
   "cli": {
-    "entitiesDir": "./dist/src/models",
-    "migrationsDir": "./dist/src/database/migrations"
+    "entitiesDir": "./src/models",
+    "migrationsDir": "./src/database/migrations"
   }
 }
