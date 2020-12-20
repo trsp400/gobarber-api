@@ -1,7 +1,4 @@
 import { createConnection } from 'typeorm';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const connectDb = async () => {
   let retries = 3;
