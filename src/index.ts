@@ -1,13 +1,22 @@
+import 'reflect-metadata';
+import dotenv from 'dotenv';
 import createServer from './server';
+import connectDb from './database';
 
-const server = createServer();
+dotenv.config({
+  path: `.env.${process.env.NODE_ENV}`,
+});
 
 const start = async (): Promise<void> => {
   try {
-    server.listen(3333, '0.0.0.0');
+    connectDb().then(() => {
+      createServer().listen(3333, '0.0.0.0', () => {
+        console.log('🚀 server started at 3333!');
+      });
+    });
   } catch (error) {
-    server.log.error(error);
+    createServer().log.error(error);
   }
-}
+};
 
 start();

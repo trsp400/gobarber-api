@@ -4,8 +4,14 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev:server": "ts-node-dev --transpile-only --ignore-watch node_modules src/index.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    "dev:server": "NODE_ENV=development ts-node-dev --transpile-only --ignore-watch node_modules src/index.ts",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
+    "typeorm:cli": "ts-node-dev ./node_modules/typeorm/cli -f ./ormconfig.docker.ts",
+    "db:migrate": "yarn typeorm:cli migration:run ",
+    "migration:revert": "yarn typeorm:cli migration:revert",
+    "migration:create": "yarn typeorm:cli migration:create",
+    "db:sync": "yarn typeorm:cli schema:sync && yarn db:migrate",
+    "db:drop": "yarn typeorm:cli schema:drop"
   },
   "devDependencies": {
     "@types/node": "^14.11.10",
@@ -23,11 +29,15 @@
   },
   "dependencies": {
     "date-fns": "^2.16.1",
+    "dotenv": "^8.2.0",
     "fastify": "^3.6.0",
     "fastify-cors": "^4.1.0",
     "fastify-oas": "^3.0.3",
     "fastify-plugin": "^3.0.0",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
     "pg": "^8.4.2",
+    "reflect-metadata": "^0.1.13",
     "ts-node": "^9.0.0",
     "typeorm": "^0.2.29",
     "uuidv4": "^6.2.4"

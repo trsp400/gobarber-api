@@ -1,5 +1,5 @@
+/* eslint-disable global-require */
 import fastify from 'fastify';
-import './database';
 
 export default function createServer() {
   const server = fastify();
@@ -11,7 +11,8 @@ export default function createServer() {
     swagger: {
       info: {
         title: 'GoBarber 13',
-        description: "GoBarber 13 Documentation. That's a different version of GoBarber, made with fastify intead of Express.",
+        description:
+          "GoBarber 13 Documentation. That's a different version of GoBarber, made with fastify intead of Express.",
         version: '0.1.0',
       },
       externalDocs: {
@@ -21,15 +22,15 @@ export default function createServer() {
       consumes: ['application/json'],
       produces: ['application/json'],
     },
-    exposeRoute: true
-  })
+    exposeRoute: true,
+  });
 
   server.register(require('./routes'));
 
   server.setErrorHandler((error, req, res) => {
-		req.log.error(error.toString());
-		res.send({ error });
-	});
+    req.log.error(error.toString());
+    res.send({ error });
+  });
 
   return server;
 }
