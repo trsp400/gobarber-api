@@ -1,7 +1,7 @@
 import { startOfHour } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 import Appointment from '../models/Appointment';
-import AppointmentRepository from '../repositories/AppointmentsRepository';
+import AppointmentsRepository from '../repositories/AppointmentsRepository';
 
 interface RequestDTO {
   provider: string;
@@ -10,10 +10,10 @@ interface RequestDTO {
 
 class CreateAppointmentService {
   public async execute({ provider, date }: RequestDTO): Promise<Appointment> {
-    const appointmentsRepository = getCustomRepository(AppointmentRepository);
+    const appointmentsRepository = getCustomRepository(AppointmentsRepository);
     const appointmentDate = startOfHour(date);
 
-    const findAppointmentByDate = appointmentsRepository.findByDate(
+    const findAppointmentByDate = await appointmentsRepository.findByDate(
       appointmentDate,
     );
 
