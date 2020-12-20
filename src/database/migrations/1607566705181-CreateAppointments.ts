@@ -16,7 +16,7 @@ export default class CreateAppointments1607566705181
           },
           {
             name: 'provider_id',
-            type: 'varchar',
+            type: 'uuid',
             isNullable: true,
           },
           {

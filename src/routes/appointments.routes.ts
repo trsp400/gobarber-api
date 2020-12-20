@@ -6,12 +6,12 @@ import CreateAppointmentService from '../services/CreateAppointmentService';
 export default async function appointmentsRoutes(server, options, next) {
   server.post(`/`, async (req, res) => {
     try {
-      const { provider, date } = req.body;
+      const { provider_id, date } = req.body;
 
       const parsedDate = parseISO(date);
 
       const data = {
-        provider,
+        provider_id,
         date: parsedDate,
       };
 

@@ -22,6 +22,7 @@
     "no-await-in-loop": "off",
     "no-var-requires": "off",
     "camelcase": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-var-requires": "off",
     "import/extensions": [
       "error",
