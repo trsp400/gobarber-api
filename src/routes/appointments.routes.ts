@@ -30,9 +30,9 @@ export default async function appointmentsRoutes(server, options, next) {
     }
   });
 
-  server.get(`/`, (req, res) => {
+  server.get(`/`, async (req, res) => {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
-    const appointments = appointmentsRepository.find();
+    const appointments = await appointmentsRepository.find();
     res.send({ appointments });
   });
 

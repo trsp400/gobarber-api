@@ -1,5 +1,4 @@
 /* eslint-disable global-require */
-import 'reflect-metadata';
 import fastify from 'fastify';
 
 export default function createServer() {
