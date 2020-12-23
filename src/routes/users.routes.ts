@@ -1,7 +1,21 @@
+import {
+  FastifyRequest,
+  FastifyInstance,
+  RouteShorthandOptions,
+  HookHandlerDoneFunction,
+} from 'fastify';
 import CreateUserService from '../services/CreaateUserService';
 
-export default async function usersRoutes(server, options, next) {
-  server.post(`/`, async (req: any, res: any) => {
+type CustomRequest = FastifyRequest<{
+  Body: { name: string; email: string; password: string };
+}>;
+
+export default async function usersRoutes(
+  server: FastifyInstance,
+  options: RouteShorthandOptions,
+  next: HookHandlerDoneFunction,
+) {
+  server.post(`/`, async (req: CustomRequest, res) => {
     try {
       const { name, email, password } = req.body;
 

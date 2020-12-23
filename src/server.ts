@@ -1,10 +1,11 @@
 /* eslint-disable global-require */
 import fastify from 'fastify';
 
-export default function createServer() {
+export default async function createServer() {
   const server = fastify();
 
   server.register(require('fastify-cors'));
+  await server.register(require('middie'));
 
   server.register(require('fastify-oas'), {
     routePrefix: '/documentation',

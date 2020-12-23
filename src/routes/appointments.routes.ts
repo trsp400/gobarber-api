@@ -1,40 +1,70 @@
+import {
+  FastifyRequest,
+  FastifyInstance,
+  RouteShorthandOptions,
+  HookHandlerDoneFunction,
+  FastifyReply,
+} from 'fastify';
 import { parseISO } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
+
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 import CreateAppointmentService from '../services/CreateAppointmentService';
 
-export default async function appointmentsRoutes(server, options, next) {
-  server.post(`/`, async (req, res) => {
-    try {
-      const { provider_id, date } = req.body;
+import verifyAuthenticationMiddleware from '../middlewares/verifyAuthentication';
 
-      const parsedDate = parseISO(date);
+type CustomRequest = FastifyRequest<{
+  Body: { provider_id: string; date: string };
+}>;
 
-      const data = {
-        provider_id,
-        date: parsedDate,
-      };
+export default async function appointmentsRoutes(
+  server: FastifyInstance,
+  options: RouteShorthandOptions,
+  next: HookHandlerDoneFunction,
+) {
+  server.post(
+    `/`,
+    { preValidation: [verifyAuthenticationMiddleware] },
+    async (request: CustomRequest, response: FastifyReply) => {
+      try {
+        const { provider_id, date } = request.body;
 
-      const createAppointmentService = new CreateAppointmentService();
+        const parsedDate = parseISO(date);
 
-      const appointment = await createAppointmentService.execute(data);
+        const data = {
+          provider_id,
+          date: parsedDate,
+        };
 
-      if (!appointment)
-        return res.status(400).send({ message: 'This time is already booked' });
+        const createAppointmentService = new CreateAppointmentService();
 
-      return res.send({ appointment });
-    } catch (error) {
-      return res.status(400).send({
-        message: error.message,
-      });
-    }
-  });
+        const appointment = await createAppointmentService.execute(data);
 
-  server.get(`/`, async (req, res) => {
-    const appointmentsRepository = getCustomRepository(AppointmentsRepository);
-    const appointments = await appointmentsRepository.find();
-    res.send({ appointments });
-  });
+        if (!appointment)
+          return response
+            .status(400)
+            .send({ message: 'This time is already booked' });
+
+        return response.status(200).send({ appointment });
+      } catch (error) {
+        return response.status(400).send({
+          message: error.message,
+        });
+      }
+    },
+  );
+
+  server.get(
+    `/`,
+    { preValidation: [verifyAuthenticationMiddleware] },
+    async (request: FastifyRequest, response: FastifyReply) => {
+      const appointmentsRepository = getCustomRepository(
+        AppointmentsRepository,
+      );
+      const appointments = await appointmentsRepository.find();
+      response.send({ appointments });
+    },
+  );
 
   next();
 }

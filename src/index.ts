@@ -9,13 +9,13 @@ dotenv.config({
 
 const start = async (): Promise<void> => {
   try {
-    connectDb().then(() => {
-      createServer().listen(3333, '0.0.0.0', () => {
+    connectDb().then(async () => {
+      (await createServer()).listen(3333, '0.0.0.0', () => {
         console.log('🚀 server started at 3333!');
       });
     });
   } catch (error) {
-    createServer().log.error(error);
+    (await createServer()).log.error(error);
   }
 };
 
