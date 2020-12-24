@@ -5,7 +5,6 @@
   "license": "MIT",
   "scripts": {
     "dev:server": "NODE_ENV=development ts-node-dev --transpile-only --ignore-watch node_modules src/index.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "typeorm:cli": "ts-node-dev ./node_modules/typeorm/cli -f ./ormconfig.docker.ts",
     "db:migrate": "yarn typeorm:cli migration:run ",
     "migration:revert": "yarn typeorm:cli migration:revert",

@@ -8,6 +8,7 @@ import {
 import { parseISO } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 
+import { RouteGenericInterface } from 'fastify/types/route';
 import AppointmentsRepository from '../repositories/AppointmentsRepository';
 import CreateAppointmentService from '../services/CreateAppointmentService';
 
@@ -22,10 +23,10 @@ export default async function appointmentsRoutes(
   options: RouteShorthandOptions,
   next: HookHandlerDoneFunction,
 ) {
-  server.post(
+  server.post<RouteGenericInterface>(
     `/`,
     { preValidation: [verifyAuthenticationMiddleware] },
-    async (request: CustomRequest, response: FastifyReply) => {
+    async (request: CustomRequest, reply: FastifyReply) => {
       try {
         const { provider_id, date } = request.body;
 
@@ -41,13 +42,13 @@ export default async function appointmentsRoutes(
         const appointment = await createAppointmentService.execute(data);
 
         if (!appointment)
-          return response
+          return reply
             .status(400)
             .send({ message: 'This time is already booked' });
 
-        return response.status(200).send({ appointment });
+        return reply.status(200).send({ appointment });
       } catch (error) {
-        return response.status(400).send({
+        return reply.status(400).send({
           message: error.message,
         });
       }

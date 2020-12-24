@@ -2,8 +2,8 @@ import {
   FastifyRequest,
   FastifyReply,
   FastifyInstance,
-  FastifyPluginOptions,
   HookHandlerDoneFunction,
+  RouteShorthandOptions,
 } from 'fastify';
 import AuthenticateUserService from '../services/AuthenticateUserService';
 
@@ -13,12 +13,12 @@ type CustomRequest = FastifyRequest<{
 
 export default async function sessionRoutes(
   server: FastifyInstance,
-  options: FastifyPluginOptions,
+  options: RouteShorthandOptions,
   next: HookHandlerDoneFunction,
 ) {
-  server.post(`/`, async (req: CustomRequest, res: FastifyReply) => {
+  server.post(`/`, async (request: CustomRequest, reply: FastifyReply) => {
     try {
-      const { email, password } = req.body;
+      const { email, password } = request.body;
 
       const authenticateUser = new AuthenticateUserService();
 
@@ -27,9 +27,9 @@ export default async function sessionRoutes(
         password,
       });
 
-      return { user, token };
+      return reply.status(200).send({ user, token });
     } catch (error) {
-      return res.status(403).send({
+      return reply.status(403).send({
         message: error.message,
       });
     }
