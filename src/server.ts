@@ -1,11 +1,14 @@
 /* eslint-disable global-require */
 import fastify from 'fastify';
+import multer from 'fastify-multer';
 
 export default async function createServer() {
   const server = fastify();
 
   server.register(require('fastify-cors'));
   await server.register(require('middie'));
+  // server.register(require('fastify-multipart'));
+  server.register(multer.contentParser);
 
   server.register(require('fastify-oas'), {
     routePrefix: '/documentation',

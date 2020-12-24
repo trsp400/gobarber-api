@@ -16,7 +16,7 @@ export default function verifyAuthentication(
   const authHeader = request.headers.authorization;
 
   if (!authHeader)
-    return response.status(403).send({ error: 'Missing JWT yoken' });
+    return response.status(403).send({ error: 'Missing JWT token' });
 
   const [, token] = authHeader.split(' ');
 

@@ -13,7 +13,9 @@
     "db:drop": "yarn typeorm:cli schema:drop"
   },
   "devDependencies": {
+    "@types/busboy": "^0.2.3",
     "@types/jsonwebtoken": "^8.5.0",
+    "@types/multer": "^1.4.5",
     "@types/node": "^14.14.14",
     "@typescript-eslint/eslint-plugin": "^4.9.1",
     "@typescript-eslint/parser": "^4.9.1",
@@ -34,6 +36,8 @@
     "dotenv": "^8.2.0",
     "fastify": "^3.6.0",
     "fastify-cors": "^4.1.0",
+    "fastify-multer": "^2.0.2",
+    "fastify-multipart": "^3.3.1",
     "fastify-oas": "^3.0.3",
     "fastify-plugin": "^3.0.0",
     "jsonwebtoken": "^8.5.1",
@@ -42,6 +46,7 @@
     "mysql2": "^2.2.5",
     "pg": "^8.4.2",
     "reflect-metadata": "^0.1.13",
+    "sharp": "^0.27.0",
     "ts-node": "^9.0.0",
     "typeorm": "^0.2.29",
     "uuidv4": "^6.2.4"
