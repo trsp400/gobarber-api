@@ -7,7 +7,6 @@ export default async function createServer() {
 
   server.register(require('fastify-cors'));
   await server.register(require('middie'));
-  // server.register(require('fastify-multipart'));
   server.register(multer.contentParser);
 
   server.register(require('fastify-oas'), {

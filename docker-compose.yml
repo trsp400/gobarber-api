@@ -16,6 +16,7 @@ services:
   api:
     build: .
     container_name: api
+    command: yarn
     command: yarn dev:server
     environment:
       NODE_ENV: ${NODE_ENV}
