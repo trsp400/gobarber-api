@@ -11,10 +11,16 @@ import uploadConfig from '../configs/upload';
 
 import verifyAuthenticationMiddleware from '../middlewares/verifyAuthentication';
 import CreateUserService from '../services/CreaateUserService';
+import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
 
-type CustomRequest = FastifyRequest<{
+type PostCustomRequest = FastifyRequest<{
   Body: { name: string; email: string; password: string };
 }>;
+
+interface PatchCustomRequest extends FastifyRequest {
+  user: { id: string };
+  file: { filename: string };
+}
 
 const upload = multer(uploadConfig);
 
@@ -23,7 +29,7 @@ export default async function usersRoutes(
   options: RouteShorthandOptions,
   next: HookHandlerDoneFunction,
 ) {
-  server.post(`/`, async (request: CustomRequest, reply: FastifyReply) => {
+  server.post(`/`, async (request: PostCustomRequest, reply: FastifyReply) => {
     try {
       const { name, email, password } = request.body;
 
@@ -51,10 +57,24 @@ export default async function usersRoutes(
     {
       preValidation: [verifyAuthenticationMiddleware, upload.single('avatar')],
     },
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      return reply.send({
-        oie: 'ok',
-      });
+    async (request: PatchCustomRequest, reply: FastifyReply) => {
+      try {
+        const updateUserAvatarService = new UpdateUserAvatarService();
+
+        updateUserAvatarService.execute({
+          user_id: request.user.id,
+          avatarFilename: request.file.filename,
+        });
+
+        return reply.send({
+          user_id: request.user.id,
+          avatarFilename: request.file.filename,
+        });
+      } catch (error) {
+        return reply.status(400).send({
+          error: error.message,
+        });
+      }
     },
   );
 }
