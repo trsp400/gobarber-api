@@ -14,9 +14,9 @@ services:
     ports:
       - "5432:5432"
   api:
-    build: .
+    build:
+      context: .
     container_name: api
-    command: yarn
     command: yarn dev:server
     environment:
       NODE_ENV: ${NODE_ENV}

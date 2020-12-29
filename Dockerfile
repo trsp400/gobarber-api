@@ -12,5 +12,4 @@ COPY ormconfig.docker.ts ./ormconfig.ts
 
 EXPOSE 3333
 
-
 CMD [ "yarn", "dev:server" ]

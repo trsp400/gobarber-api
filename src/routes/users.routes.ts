@@ -23,32 +23,28 @@ export default async function usersRoutes(
   options: RouteShorthandOptions,
   next: HookHandlerDoneFunction,
 ) {
-  server.post(
-    `/`,
-    { preValidation: [verifyAuthenticationMiddleware] },
-    async (request: CustomRequest, reply: FastifyReply) => {
-      try {
-        const { name, email, password } = request.body;
+  server.post(`/`, async (request: CustomRequest, reply: FastifyReply) => {
+    try {
+      const { name, email, password } = request.body;
 
-        const createUserService = new CreateUserService();
+      const createUserService = new CreateUserService();
 
-        const user = await createUserService.execute({
-          name,
-          email,
-          password,
-        });
+      const user = await createUserService.execute({
+        name,
+        email,
+        password,
+      });
 
-        delete user.password;
+      delete user.password;
 
-        next();
-        return reply.status(200).send(user);
-      } catch (error) {
-        return reply.status(403).send({
-          message: error.message,
-        });
-      }
-    },
-  );
+      next();
+      return reply.status(200).send(user);
+    } catch (error) {
+      return reply.status(403).send({
+        message: error.message,
+      });
+    }
+  });
 
   server.patch(
     '/avatar',
