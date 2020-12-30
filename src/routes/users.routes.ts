@@ -61,15 +61,12 @@ export default async function usersRoutes(
       try {
         const updateUserAvatarService = new UpdateUserAvatarService();
 
-        updateUserAvatarService.execute({
+        const user = await updateUserAvatarService.execute({
           user_id: request.user.id,
           avatarFilename: request.file.filename,
         });
 
-        return reply.send({
-          user_id: request.user.id,
-          avatarFilename: request.file.filename,
-        });
+        return reply.send(user);
       } catch (error) {
         return reply.status(400).send({
           error: error.message,

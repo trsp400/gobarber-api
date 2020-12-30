@@ -13,13 +13,13 @@
     "db:drop": "yarn typeorm:cli schema:drop"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
     "@types/busboy": "^0.2.3",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/multer": "^1.4.5",
     "@types/node": "^14.14.14",
     "@typescript-eslint/eslint-plugin": "^4.9.1",
     "@typescript-eslint/parser": "^4.9.1",
-    "@types/bcryptjs": "^2.4.2",
     "eslint": "6.8.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^7.0.0",

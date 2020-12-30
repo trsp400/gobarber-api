@@ -14,13 +14,8 @@ export default async function createServer() {
     swagger: {
       info: {
         title: 'GoBarber 13',
-        description:
-          "GoBarber 13 Documentation. That's a different version of GoBarber, made with fastify intead of Express.",
-        version: '0.1.0',
-      },
-      externalDocs: {
-        url: 'https://swagger.io',
-        description: 'Find more info here',
+        description: 'GoBarber Documentation.',
+        version: '0.1',
       },
       consumes: ['application/json'],
       produces: ['application/json'],
