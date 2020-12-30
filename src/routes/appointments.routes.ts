@@ -27,31 +27,25 @@ export default async function appointmentsRoutes(
     `/`,
     { preValidation: [verifyAuthenticationMiddleware] },
     async (request: CustomRequest, reply: FastifyReply) => {
-      try {
-        const { provider_id, date } = request.body;
+      const { provider_id, date } = request.body;
 
-        const parsedDate = parseISO(date);
+      const parsedDate = parseISO(date);
 
-        const data = {
-          provider_id,
-          date: parsedDate,
-        };
+      const data = {
+        provider_id,
+        date: parsedDate,
+      };
 
-        const createAppointmentService = new CreateAppointmentService();
+      const createAppointmentService = new CreateAppointmentService();
 
-        const appointment = await createAppointmentService.execute(data);
+      const appointment = await createAppointmentService.execute(data);
 
-        if (!appointment)
-          return reply
-            .status(400)
-            .send({ message: 'This time is already booked' });
+      if (!appointment)
+        return reply
+          .status(400)
+          .send({ message: 'This time is already booked' });
 
-        return reply.status(200).send({ appointment });
-      } catch (error) {
-        return reply.status(400).send({
-          message: error.message,
-        });
-      }
+      return reply.status(200).send({ appointment });
     },
   );
 

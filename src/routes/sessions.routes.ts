@@ -17,22 +17,16 @@ export default async function sessionRoutes(
   next: HookHandlerDoneFunction,
 ) {
   server.post(`/`, async (request: CustomRequest, reply: FastifyReply) => {
-    try {
-      const { email, password } = request.body;
+    const { email, password } = request.body;
 
-      const authenticateUser = new AuthenticateUserService();
+    const authenticateUser = new AuthenticateUserService();
 
-      const { user, token } = await authenticateUser.execute({
-        email,
-        password,
-      });
+    const { user, token } = await authenticateUser.execute({
+      email,
+      password,
+    });
 
-      return reply.status(200).send({ user, token });
-    } catch (error) {
-      return reply.status(403).send({
-        message: error.message,
-      });
-    }
+    return reply.status(200).send({ user, token });
   });
 
   next();

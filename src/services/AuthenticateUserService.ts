@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 import User from '../models/User';
-
+import AppError from '../errors/AppError';
 import values from '../configs/values';
 
 interface DTO {
@@ -25,11 +25,11 @@ class AuthenticateUserService {
       },
     });
 
-    if (!user) throw new Error('User not found');
+    if (!user) throw new AppError('User not found', 404);
 
     const isPasswordCorret = await compare(password, user.password);
 
-    if (!isPasswordCorret) throw new Error('Incorrect password!');
+    if (!isPasswordCorret) throw new AppError('Incorrect password!', 401);
 
     const { secret } = values.jwt;
 

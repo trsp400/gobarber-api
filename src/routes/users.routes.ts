@@ -10,7 +10,7 @@ import multer from 'fastify-multer';
 import uploadConfig from '../configs/upload';
 
 import verifyAuthenticationMiddleware from '../middlewares/verifyAuthentication';
-import CreateUserService from '../services/CreaateUserService';
+import CreateUserService from '../services/CreateUserService';
 import UpdateUserAvatarService from '../services/UpdateUserAvatarService';
 
 type PostCustomRequest = FastifyRequest<{
@@ -30,26 +30,20 @@ export default async function usersRoutes(
   next: HookHandlerDoneFunction,
 ) {
   server.post(`/`, async (request: PostCustomRequest, reply: FastifyReply) => {
-    try {
-      const { name, email, password } = request.body;
+    const { name, email, password } = request.body;
 
-      const createUserService = new CreateUserService();
+    const createUserService = new CreateUserService();
 
-      const user = await createUserService.execute({
-        name,
-        email,
-        password,
-      });
+    const user = await createUserService.execute({
+      name,
+      email,
+      password,
+    });
 
-      delete user.password;
+    delete user.password;
 
-      next();
-      return reply.status(200).send(user);
-    } catch (error) {
-      return reply.status(403).send({
-        message: error.message,
-      });
-    }
+    next();
+    return reply.status(200).send(user);
   });
 
   server.patch(
@@ -58,20 +52,14 @@ export default async function usersRoutes(
       preValidation: [verifyAuthenticationMiddleware, upload.single('avatar')],
     },
     async (request: PatchCustomRequest, reply: FastifyReply) => {
-      try {
-        const updateUserAvatarService = new UpdateUserAvatarService();
+      const updateUserAvatarService = new UpdateUserAvatarService();
 
-        const user = await updateUserAvatarService.execute({
-          user_id: request.user.id,
-          avatarFilename: request.file.filename,
-        });
+      const user = await updateUserAvatarService.execute({
+        user_id: request.user.id,
+        avatarFilename: request.file.filename,
+      });
 
-        return reply.send(user);
-      } catch (error) {
-        return reply.status(400).send({
-          error: error.message,
-        });
-      }
+      return reply.send(user);
     },
   );
 }
