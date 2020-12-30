@@ -39,6 +39,7 @@
     "fastify-multer": "^2.0.2",
     "fastify-oas": "^3.0.3",
     "fastify-plugin": "^3.0.0",
+    "fastify-static": "^3.3.0",
     "jsonwebtoken": "^8.5.1",
     "middie": "^5.2.0",
     "mysql": "^2.18.1",
