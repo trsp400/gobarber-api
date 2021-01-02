@@ -10,8 +10,9 @@ interface DTO {
   password: string;
 }
 
+type UserType = Omit<User, 'password'>;
 interface Response {
-  user: User;
+  user: UserType;
   token: string;
 }
 
@@ -27,7 +28,7 @@ class AuthenticateUserService {
 
     if (!user) throw new AppError('User not found', 404);
 
-    const isPasswordCorret = await compare(password, user.password);
+    const isPasswordCorret = await compare(password, user.password!);
 
     if (!isPasswordCorret) throw new AppError('Incorrect password!', 401);
 
@@ -37,6 +38,8 @@ class AuthenticateUserService {
       subject: user.id,
       expiresIn: '7d',
     });
+
+    delete user.password;
 
     return {
       user,
