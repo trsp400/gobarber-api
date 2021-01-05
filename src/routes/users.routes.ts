@@ -7,7 +7,11 @@ import {
 } from 'fastify';
 
 import multer from 'fastify-multer';
+import { getRepository } from 'typeorm';
+
 import uploadConfig from '../configs/upload';
+
+import User from '../models/User';
 
 import verifyAuthenticationMiddleware from '../middlewares/verifyAuthentication';
 import CreateUserService from '../services/CreateUserService';
@@ -60,6 +64,16 @@ export default async function usersRoutes(
       });
 
       return reply.send(user);
+    },
+  );
+
+  server.get(
+    '/',
+    { preValidation: [verifyAuthenticationMiddleware] },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const usersRepository = getRepository(User);
+
+      return reply.send(await usersRepository.find());
     },
   );
 }
